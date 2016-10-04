@@ -1,5 +1,5 @@
-#ifndef SODOKU_BACK_END_H
-#define SODOKU_BACK_END_H
+#ifndef SUDOKU_BACK_END_H
+#define SUDOKU_BACK_END_H
 
 #include <stdio.h>
 #include <vector>
@@ -8,24 +8,24 @@
 
 using namespace std;
 
-class Sodoku {
+class Sudoku {
 
 public:
     // PUBLIC MEMEBER FUNCTIONS:
     // Constructor from matrix 0 for non entries. Pass puzzel as argument
-    Sodoku(vector<vector<int>>);  
+    Sudoku(vector<vector<int>>);  
     
-    // Solve the sodoku.
+    // Solve the sudoku.
     bool solve();
     
-    // read only acces to the sodoku.
+    // read only acces to the sudoku.
     int at(int, int);
     
-    //Check if sodoku is a sudoku. that is doeas the numbers already placed cause logical errors
+    //Check if sudoku is a sudoku. that is doeas the numbers already placed cause logical errors
     bool solvable();
     
-    // Overloading the << operator. for printing sodoku.
-    friend ostream &operator<<( ostream &output, const Sodoku &sod );
+    // Overloading the << operator. for printing sudoku.
+    friend ostream &operator<<( ostream &output, const Sudoku &sod );
 
 private:
     // PRIVATE MEMEBER FUNCTIONS:
@@ -67,7 +67,7 @@ private:
 
     // Help function to determine determinants
     vector<int> quadrant(int, int);
-    // Help function to check number in cell is possible. Used when checking input sodoku.
+    // Help function to check number in cell is possible. Used when checking input sudoku.
     bool check_pos(int i, int j);
 
     // Search for doubletts in columns
@@ -94,5 +94,5 @@ private:
 
 };
 
-#endif // SODOKU_BACK_END_H
+#endif // SUDOKU_BACK_END_H
 

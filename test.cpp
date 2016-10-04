@@ -19,7 +19,7 @@ int main(){
 				 {0, 1, 0, 0, 0, 9, 0, 0, 0},
 				 {0, 0, 2, 5, 4, 0, 0, 0, 0}};
     
-    Sodoku s(puzzel);
+    Sudoku s(puzzel);
     std::cout << s << endl;
     s.solve(); 
     std::cout << s; 

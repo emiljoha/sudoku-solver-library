@@ -1,5 +1,5 @@
 //
-//  Sodoku_class.cpp
+//  Sudoku_class.cpp
 //  Sudoku
 //
 //  Created by Emil Johansson on 2015-10-16.
@@ -9,7 +9,7 @@
 #include "sudoku_solver.h"
 #include <assert.h>
 
-Sodoku::Sodoku(vector<vector<int> > IN_DATA){
+Sudoku::Sudoku(vector<vector<int> > IN_DATA){
 
     // Check that input is somewhat correct.
     assert(IN_DATA.size() == 9 and IN_DATA.at(0).size() == 9);
@@ -29,7 +29,7 @@ Sodoku::Sodoku(vector<vector<int> > IN_DATA){
 
 
 // Reset the arrrays that save the possible numbers.
-void Sodoku::reset(){
+void Sudoku::reset(){
     for (int i = 0; i < 9; i++){
         for (int j = 0; j < 9; j++) {
             M.at(i).at(j).resize(0);
@@ -38,7 +38,7 @@ void Sodoku::reset(){
 }
 
 // Check a site for what possible numbers that a box can have.
-vector<int> Sodoku::Check_Set(int i, int j){
+vector<int> Sudoku::Check_Set(int i, int j){
 
     vector<int> list;
 
@@ -88,7 +88,7 @@ vector<int> Sodoku::Check_Set(int i, int j){
 
 
 // Determine the quadrant. Return the cordinates of the left top corner.
-vector<int> Sodoku::quadrant(int i, int j){
+vector<int> Sudoku::quadrant(int i, int j){
 
     vector<int> quadrant(2);
 
@@ -167,7 +167,7 @@ vector<int> Sodoku::quadrant(int i, int j){
 }
 
 
-vector<int> Sodoku::negating(vector<int> L){
+vector<int> Sudoku::negating(vector<int> L){
     // Handle the case when the Check_state function gives back an vector with
     // one element = 10 in the case of that there already is a number in that slot
     if (L.size() == 1 and L.at(0) == 10){
@@ -195,7 +195,7 @@ vector<int> Sodoku::negating(vector<int> L){
     return res;
 }
 
-bool Sodoku::solve(){
+bool Sudoku::solve(){
 
     if (solved())
         return true;
@@ -227,7 +227,7 @@ bool Sodoku::solve(){
     //std::cout << *this << std::endl;
 
 
-    // solve the now sligtly more solved sodoku
+    // solve the now sligtly more solved sudoku
     if (solve())
         return true;
 
@@ -237,7 +237,7 @@ bool Sodoku::solve(){
 // Step 1
 // Look for a place where there is only one posibible number and
 // place that number there.
-bool Sodoku::step1(){
+bool Sudoku::step1(){
     for (int i = 0; i < 9; i++){
         for (int j = 0; j < 9; j++){
             if (M.at(i).at(j).size() == 1){
@@ -255,7 +255,7 @@ bool Sodoku::step1(){
 // posibilities in the cells in that col/row/box.
 // If the number can only be placed in one position in the row then place the
 // number there.
-bool Sodoku::step2(){
+bool Sudoku::step2(){
 
     vector<vector<int> > help;
 
@@ -332,7 +332,7 @@ bool Sodoku::step2(){
 // Step 3
 // Look for uniqiue doubles in row/col/box. Then delete the other numbers that
 // before was considred possible in those posittions.
-bool Sodoku::step3(){
+bool Sudoku::step3(){
     // Did step3 do any good?
     // bool succes = false;
     // help vector to save positions of potential doubles.
@@ -442,7 +442,7 @@ bool Sodoku::step3(){
 // if both ways have been tried of so it throws another exeption to be caught by the
 // next guess made witch has then wrong. And so on...
 
-bool Sodoku::step4(){
+bool Sudoku::step4(){
 
     vector<vector<int> > help;
 
@@ -548,7 +548,7 @@ return false;
 // Now we are kinda desperate. Lets try find a position with 2 posiblities and try them
 // both and se witch works. IF there is no position with 2 posibilites find one
 // with 3 and so on.
-bool Sodoku::step5(){
+bool Sudoku::step5(){
     for (int i = 0; i < 9; i++){
         for (int j = 0; j < 9; j++) {
             if (M.at(i).at(j).size() == 2){
@@ -563,7 +563,7 @@ bool Sodoku::step5(){
     return false;
 }
 
-ostream &operator<<( ostream &output, const Sodoku &sod ){
+ostream &operator<<( ostream &output, const Sudoku &sod ){
     for (int j = 0; j < 9; j++){
         for (int i = 0; i < 9; i++){
             if (sod.S.at(i).at(j) == 0){
@@ -580,7 +580,7 @@ ostream &operator<<( ostream &output, const Sodoku &sod ){
 
 
 // Search for doubletts in columns
-vector<vector<int> > Sodoku::doublett_col(int i, int num1, int num2){
+vector<vector<int> > Sudoku::doublett_col(int i, int num1, int num2){
 
     bool is_num1 = false, is_num2 = false;
 
@@ -608,7 +608,7 @@ vector<vector<int> > Sodoku::doublett_col(int i, int num1, int num2){
 
 
 // Search for doubletts in row.
-vector<vector<int> > Sodoku::doublett_row(int j, int num1, int num2){
+vector<vector<int> > Sudoku::doublett_row(int j, int num1, int num2){
     bool is_num1 = false, is_num2 = false;
 
     vector<vector<int> > help;
@@ -634,7 +634,7 @@ vector<vector<int> > Sodoku::doublett_row(int j, int num1, int num2){
 
 
 // search for doubletts in box.
-vector<vector<int> > Sodoku::doublett_box(vector<int> Q, int num1, int num2){
+vector<vector<int> > Sudoku::doublett_box(vector<int> Q, int num1, int num2){
     bool is_num1 = false, is_num2 = false;
 
     vector<vector<int> > help;
@@ -664,7 +664,7 @@ vector<vector<int> > Sodoku::doublett_box(vector<int> Q, int num1, int num2){
 
 // Check if there are more occurences of two numbers than the two togeter
 // in a row
-bool Sodoku::row_uniqe(int j, int num1, int num2){
+bool Sudoku::row_uniqe(int j, int num1, int num2){
     bool is_num1 = false, is_num2 = false;
 
     for (int i = 0; i < 9; i++){
@@ -686,7 +686,7 @@ bool Sodoku::row_uniqe(int j, int num1, int num2){
 
 
 // in a column
-bool Sodoku::col_uniqe(int i, int num1, int num2){
+bool Sudoku::col_uniqe(int i, int num1, int num2){
     bool is_num1 = false, is_num2 = false;
 
     for (int j = 0; j < 9; j++){
@@ -707,7 +707,7 @@ bool Sodoku::col_uniqe(int i, int num1, int num2){
 
 
 // in a box
-bool Sodoku::box_uniqe(vector<int> Q, int num1, int num2){
+bool Sudoku::box_uniqe(vector<int> Q, int num1, int num2){
     bool is_num1 = false, is_num2 = false;
 
     for (int i = Q.at(0); i < Q.at(0) + 3; i++){
@@ -729,7 +729,7 @@ bool Sodoku::box_uniqe(vector<int> Q, int num1, int num2){
 };
 
 // Delete numbers other than num1 and num2 in cell (i, j)
-void Sodoku::delete_other(int i, int j, int num1, int num2){
+void Sudoku::delete_other(int i, int j, int num1, int num2){
     for (int k = 0; k < int(M.at(i).at(j).size()); k++){
         if( M.at(i).at(j).at(k) != num1 and M.at(i).at(j).at(k) != num2 )
             M.at(i).at(j).erase(M.at(i).at(j).begin() + k);
@@ -737,7 +737,7 @@ void Sodoku::delete_other(int i, int j, int num1, int num2){
     assert(M.at(i).at(j).size() >= 2);
 };
 
-bool Sodoku::solved(){
+bool Sudoku::solved(){
     // Check if completeley solved. If so end function
     int filled = 0;
     for (int i = 0; i < 9; i++){
@@ -753,7 +753,7 @@ bool Sodoku::solved(){
     return false;
 }
 
-bool Sodoku::update(){
+bool Sudoku::update(){
     vector<int> help;
     // Update the posible numbers in all positions
     for (int i = 0; i < 9; i++){
@@ -771,7 +771,7 @@ bool Sodoku::update(){
 
 // guess method that handles the guessing and failure of guessing.
 // Give it the position of the two posibilites and the posible values
-bool Sodoku::guess(vector<vector<int> > pos, int num1, int num2){
+bool Sudoku::guess(vector<vector<int> > pos, int num1, int num2){
     vector<vector<int> > MEM = this->S;
 
     S.at(pos.at(0).at(0)).at(pos.at(0).at(1)) = num1;
@@ -794,7 +794,7 @@ bool Sodoku::guess(vector<vector<int> > pos, int num1, int num2){
     return false;
 }
 
-bool Sodoku::guess(vector<int> pos, int num1, int num2){
+bool Sudoku::guess(vector<int> pos, int num1, int num2){
     vector<vector<int> > MEM = this->S;
 
     S.at(pos.at(0)).at(pos.at(1)) = num1;
@@ -815,12 +815,12 @@ bool Sodoku::guess(vector<int> pos, int num1, int num2){
     return false;
 }
 
-// read only acces to the sodoku.
-int Sodoku::at(int i, int j){
+// read only acces to the sudoku.
+int Sudoku::at(int i, int j){
     return S.at(i).at(j);
 }
 
-bool Sodoku::check_pos(int i, int j){
+bool Sudoku::check_pos(int i, int j){
     if (at(i, j) != 0){
         // check column
         for (int k = 0; k < 9; k++){
@@ -851,7 +851,7 @@ bool Sodoku::check_pos(int i, int j){
     return true;
 }
 
-bool Sodoku::solvable(){
+bool Sudoku::solvable(){
     for (int i = 0; i < 9; i++){
         for (int j = 0; j < 9; j++){
             if(!check_pos(i, j))
