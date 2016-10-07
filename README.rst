@@ -18,7 +18,7 @@ Compilation
 -----------
 
 Run make to compile the library to a object file .o and static library
-file .a.
+file .a
 
 Usage
 -----
